@@ -1,0 +1,7 @@
+﻿  FileName.cpp
+C:\Users\dobre\Desktop\Visual Studio Projects 2023-2024\Blackjack_game\FileName.cpp(61,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\dobre\Desktop\Visual Studio Projects 2023-2024\Blackjack_game\FileName.cpp(222,32): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\dobre\Desktop\Visual Studio Projects 2023-2024\Blackjack_game\FileName.cpp(196,13): warning C4101: 'random': unreferenced local variable
+  Blackjack_game.vcxproj -> C:\Users\dobre\Desktop\Visual Studio Projects 2023-2024\Blackjack_game\x64\Debug\Blackjack_game.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
