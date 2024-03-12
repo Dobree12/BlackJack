@@ -1,106 +1,99 @@
 #include <iostream>
-#include<string>
+#include <string>
 #include <random>
 using namespace std;
 
 //random function
-    void generateNumber(int &random) {
-        random_device rd;
-        mt19937 gen(rd());
-        uniform_int_distribution<> dis(0, 52);
-        random = dis(gen);
-    }
+void generateNumber(int &random) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, 52);
+    random = dis(gen);
+}
 
+bool isNumber(const string& s) {
+for (char c : s)
+    if (!isdigit(c))
+        return false;
+ return true;
+}
 
-    bool isNumber(const string& s){
-    for (char c : s)
-    {
-        if (!isdigit(c))
-            return false;
-     }
-     return true;
-    }
+void generate_deck(string deck[], string values[], string colors[], int cards_score[]) {
+    int q=0;
+    int k=0;
+    for (int i = 0; i < 4; i++) // colors
+        for (int j = 0; j < 13; j++) //values
+        {
+            deck[k++] = values[j] + colors[i];
+            if (j == 12)
+                //if (k > 0 && pachet[k - 1][0] == 'A')
+                //card_score[q++] = 1;
+                //else
+                cards_score[q++] = 11; // A A it s 22
+            else if (j > 8)
+                cards_score[q++] = 10; // 10 J Q K
+            else
+                cards_score[q++] = j + 2; //rest of the deck
+        }
+}
 
-    void generate_deck(string deck[], string values[], string colors[], int cards_score[]) {
-        int q=0;
-        int k=0;
-        
-        for (int i = 0; i < 4; i++) // colors
-            for (int j = 0; j < 13; j++) //values
-            {
-                deck[k++] = values[j] + colors[i];
-                if (j == 12)
-                    //if (k > 0 && pachet[k - 1][0] == 'A')
-                    //card_score[q++] = 1;
-                    //else
-                    cards_score[q++] = 11; // A A it s 22
-                else if (j > 8)
-                    cards_score[q++] = 10; // 10 J Q K
-                else
-                    cards_score[q++] = j + 2; //rest of the deck
-            }
+void get_user_balance(float &balance) {
+    string input;
+     do {
+        cout << "Please insert the amount you want to play: " << "$";
+        cin >> input;
 
-    }
+        if (!isNumber(input)) {
+            cout << "Invalid input. Please enter a number." << endl;
+        }
+        else {
+            int balanceAmount = stoi(input);
 
-    void get_user_balance(float &balance) {
-        string input;
-         do {
-            cout << "Please insert the amount you want to play: " << "$";
-            cin >> input;
-
-            if (!isNumber(input)) {
-                cout << "Invalid input. Please enter a number." << endl;
-            }
+            if (balanceAmount <= 0) 
+                cout << "Bet should be higher than 0!" << endl;
+            
             else {
-                int balanceAmount = stoi(input);
-
-                if (balanceAmount <= 0) 
-                    cout << "Bet should be higher than 0!" << endl;
-                
-                else {
-                    balance = balanceAmount;
-                    return;
-                }
+                balance = balanceAmount;
+                return;
             }
-        } while (true);
-    }
-    
-    void get_user_bet(int& bet, float balance) {
-        string input;
-        do {
-            cout << "How much you want to bet?" << endl << "$";
-            cin >> input;
+        }
+    } while (true);
+}
 
-            if (!isNumber(input)) {
-                cout << "Invalid input. Please enter a number." << endl;
+void get_user_bet(int& bet, float balance) {
+    string input;
+    do {
+        cout << "How much you want to bet?" << endl << "$";
+        cin >> input;
+
+        if (!isNumber(input)) {
+            cout << "Invalid input. Please enter a number." << endl;
+        }
+        else {
+            int betAmount = stoi(input);
+            if (betAmount <= 0) {
+                cout << "Bet should be higher than 0!" << endl;
             }
+            else if (betAmount > balance) 
+                cout << "Bet is higher than your current balance. Please select a correct amount!" << endl;
             else {
-                int betAmount = stoi(input);
-                if (betAmount <= 0) {
-                    cout << "Bet should be higher than 0!" << endl;
-                }
-                else if (betAmount > balance) {
-                    cout << "Bet is higher than your current balance. Please select a correct amount!" << endl;
-                }
-                else {
-                    bet = betAmount;
-                    return;
-                }
+                bet = betAmount;
+                return;
             }
-        } while (true);
-    }
+        }
+    } while (true);
+}
 
+void dealer_first_card(string deck[],string dealer_cards[],int &nr_cards_dealer,int &dealer_score,int cards_score[]) {
+    int random;
+    cout << "--------------------------------------------------\n";
+    //generate dealer first hand
+    generateNumber(random);
+    cout << "Dealer:| " << deck[random] << " | " << endl;
 
-    void dealer_first_card(string deck[],string dealer_cards[],int &nr_cards_dealer,int &dealer_score,int cards_score[]) {
-        int random;
-        cout << "--------------------------------------------------\n";
-        //generate dealer first hand
-        generateNumber(random);
-        cout << "Dealer:| " << deck[random] << " | " << endl;
-
-        dealer_cards[nr_cards_dealer++] = deck[random]; //dealer first hand
-        dealer_score += cards_score[random];
-    }
+    dealer_cards[nr_cards_dealer++] = deck[random]; //dealer first hand
+    dealer_score += cards_score[random];
+}
     void player_hand(int &player_score, int cards_score[],string deck[],string player_cards[], string player_cards_score[]) {
         int random;
         cout << "You:";
@@ -289,9 +282,7 @@ using namespace std;
                 }
             } while (option != "N" && option != "n");
         }
-
     }
-
 int main()
 {
     play_blackjack();
